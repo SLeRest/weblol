@@ -1,0 +1,7 @@
+[package]
+name = "lolapi"
+version = "0.1.0"
+authors = ["SLeRest <sebastienlerest22@gmail.com>"]
+
+[dependencies]
+http = "0.1.17"
