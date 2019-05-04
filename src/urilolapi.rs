@@ -1,5 +1,7 @@
-extern crate http;
-use self::http::{Uri, request, Response};
+extern crate hyper;
+
+use self::hyper::Uri;
+use urilolapi::hyper::http::uri;
 
 pub struct UriLolAPI {
     api_key: String,
@@ -32,7 +34,7 @@ impl UriLolAPI {
     }
 
     pub fn summoner(&self, summoner_name: &str)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
             let url_summoner = "/lol/summoner/v4/summoners/by-name/";
             let url = format!("{}{}{}?api_key={}",
@@ -42,7 +44,7 @@ impl UriLolAPI {
     }
 
     pub fn summoner_by_id(&self, summoner_id: &str)
-       -> Result<http::Uri, http::uri::InvalidUri>
+       -> Result<Uri, uri::InvalidUri>
     {
             let url_summoner_by_id = "/lol/summoner/v4/summoners/";
             let url = format!("{}{}{}?api_key={}",
@@ -52,7 +54,7 @@ impl UriLolAPI {
     }
 
     pub fn all_champions_masteries(&self, encrypted_summoner_id: &str)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
         let url_all_champ_mast =  "/lol/champion-mastery/v4/\
                                    champion-masteries/by-summoner/";
@@ -63,7 +65,7 @@ impl UriLolAPI {
     }
 
     pub fn champion_masteries(&self, encrypted_summoner_id: &str, champion_id: &str)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
         let url_champ_mast =  "/lol/champion-mastery/v4/\
                                champion-masteries/by-summoner/";
@@ -72,11 +74,10 @@ impl UriLolAPI {
                                 encrypted_summoner_id, champion_id,
                                 self.api_key);
         url.parse::<Uri>()
-
     }
 
     pub fn total_masteries_score(&self, encrypted_summoner_id: &str)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
         let url_total_mast_score =  "/lol/champion-mastery/v4/\
                                      scores/by-summoner/";
@@ -84,32 +85,29 @@ impl UriLolAPI {
                                 self.region, url_total_mast_score,
                                 encrypted_summoner_id, self.api_key);
         url.parse::<Uri>()
-
     }
 
    pub fn champion_rotations(&self)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
         let url_champ_rot =  "/lol/platform/v3/champion-rotations";
         let url = format!("{}{}/?api_key={}",
                                 self.region, url_champ_rot, self.api_key);
         url.parse::<Uri>()
-
     }
 
     pub fn challenger_league(&self, queue: &str)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
         let url_chall_league =  "/lol/league/v4/challengerleagues/by-queue/";
         let url = format!("{}{}{}/?api_key={}",
                                 self.region, url_chall_league,
                                 queue, self.api_key);
         url.parse::<Uri>()
-
     }
 
     pub fn league_entries_summoner(&self, encrypted_summoner_id: &str)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
         let url_league_entries_sum = "/lol/league/v4/entries/by-summoner/";
         let url = format!("{}{}{}/?api_key={}",
@@ -119,7 +117,7 @@ impl UriLolAPI {
     }
 
     pub fn all_league_entries(&self, queue: &str, division: &str, tier: &str)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
         let url_all_league_entries = "/lol/league/v4/entries/";
         let url = format!("{}{}{}/{}/{}?api_key={}",
@@ -129,7 +127,7 @@ impl UriLolAPI {
     }
 
     pub fn grandmaster_league(&self, queue: &str)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
         let url_grandmaster_league =  "/lol/league/v4/\
                                        grandmasterleagues/by-queue/";
@@ -140,18 +138,17 @@ impl UriLolAPI {
     }
     
     pub fn league(&self, league_id: &str)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
         let url_league = "/lol/league/v4/leagues/";
         let url = format!("{}{}{}/?api_key={}",
                                 self.region, url_league,
                                 league_id, self.api_key);
         url.parse::<Uri>()
-
     }
 
     pub fn master_league(&self, queue: &str)
-        -> Result<http::Uri, http::uri::InvalidUri>
+        -> Result<Uri, uri::InvalidUri>
     {
         let url_master_league =  "/lol/league/v4/masterleagues/by-queue/";
         let url = format!("{}{}{}/?api_key={}",
@@ -159,5 +156,4 @@ impl UriLolAPI {
                                 queue, self.api_key);
         url.parse::<Uri>()
     }
-
 }

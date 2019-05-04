@@ -1,5 +1,7 @@
 mod urilolapi;
+mod requestlolapi;
 pub use urilolapi::UriLolAPI;
+pub use requestlolapi::RequestLolApi;
 
 fn main() {
     let api_key = "RGAPI-417ae5ac-eaec-4081-8d70-6bbdc374b0b5";
