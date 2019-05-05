@@ -7,4 +7,5 @@ fn main() {
     let request =  RequestLolApi::new(api_key, "EUW").unwrap();
     // error handler
     let summoner = request.summoner("Ouralgan").unwrap();
+    let champ_master = request.champion_masteries(&summoner.id).unwrap();
 }

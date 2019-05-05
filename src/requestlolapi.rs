@@ -3,16 +3,29 @@ extern crate serde;
 extern crate reqwest;
 
 use self::serde::{Serialize, Deserialize};
+use std::fmt;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Summoner {
-    id: String,
-    accountId: String,
-    puuid: String,
-    name: String,
-    profileIconId: u64,
-    revisionDate: u64,
-    summonerLevel: u64,
+    pub id: String,
+    pub accountId: String,
+    pub puuid: String,
+    pub name: String,
+    pub profileIconId: u64,
+    pub revisionDate: u64,
+    pub summonerLevel: u64,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct ChampionMastery {
+    pub championId: u32,
+    pub championLevel: u32,
+    pub championPoints: u64,
+    pub lastPlayTime: u64,
+    pub championPointsSinceLastLevel: u64,
+    pub championPointsUntilNextLevel: u64,
+    pub chestGranted: bool,
+    pub tokensEarned: u64,
 }
 
 pub struct RequestLolApi {
@@ -56,4 +69,14 @@ impl RequestLolApi {
         let Summoner: Summoner = reqwest::get(&url)?.json()?;
         Ok(Summoner)
    }
+
+    pub fn champion_masteries(&self, encrypted_summoner_id: &str)
+        -> Result<Vec<ChampionMastery>, Box<std::error::Error>>
+    {
+        let path = "/lol/champion-mastery/v4/champion-masteries/by-summoner/";
+        let url = format!("{}{}{}?api_key={}",
+                    self.region, path, encrypted_summoner_id, self.api_key);
+        let champ_master: Vec<ChampionMastery> = reqwest::get(&url)?.json()?;
+        Ok(champ_master)
+    }
 }
