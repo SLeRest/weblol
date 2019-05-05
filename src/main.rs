@@ -1,26 +1,11 @@
-mod urilolapi;
 mod requestlolapi;
-pub use urilolapi::UriLolAPI;
-pub use requestlolapi::RequestLolApi;
+use requestlolapi::RequestLolApi;
 
 fn main() {
-    let api_key = "RGAPI-417ae5ac-eaec-4081-8d70-6bbdc374b0b5";
-    let uri_lol_api = match UriLolAPI::new(api_key, "EUW") {
-        Ok(o) => o,
-        Err(e) => {
-            eprintln!("{}", e);
-            ::std::process::exit(1);
-        },
-    };
+    let api_key = "RGAPI-5497e51c-81d7-4acc-8506-393bd4bb9ae9";
+    println!("{}", api_key);
 
-    let summoner_name = "Ouralgan";
-    let uri_summoner = uri_lol_api.summoner(summoner_name).unwrap();
-    println!("{}", uri_summoner);
-    let test = uri_lol_api.total_masteries_score("OUIOUI").unwrap();
-    println!("{}", test);
-
-    // donc maintenant je veux requetter ces url
-    // il me faut une struct 
+    let request =  RequestLolApi::new(api_key, "EUW");
 }
 
 /*
