@@ -1,5 +1,5 @@
-extern crate serde_json;
 extern crate serde;
+extern crate serde_json;
 extern crate reqwest;
 
 use self::serde::{Serialize, Deserialize};
@@ -13,20 +13,20 @@ pub struct RequestLolApi {
 
 impl RequestLolApi {
 
-    pub fn new(metadata: Value) -> Result<Self, String> {
-        let uri_region = match metadata["region"] {
-            json!("BR") => "https://br1.api.riotgames.com".to_string(),
-            json!("EUNE") => "https://eun1.api.riotgames.com".to_string(),
-            json!("EUW") => "https://euw1.api.riotgames.com".to_string(),
-            json!("JP") => "https://jp1.api.riotgames.com".to_string(),
-            json!("KR") => "https://kr.api.riotgames.com".to_string(),
-            json!("LAN") => "https://la1.api.riotgames.com".to_string(),
-            json!("LAS") => "https://la2.api.riotgames.com".to_string(),
-            json!("NA") => "https://na1.api.riotgames.com".to_string(),
-            json!("OCE") => "https://oc1.api.riotgames.com".to_string(),
-            json!("TR") => "https://tr1.api.riotgames.com".to_string(),
-            json!("RU") => "https://ru.api.riotgames.com".to_string(),
-            json!("PBE") => "https://pbe1.api.riotgames.com".to_string(),
+    pub fn new(metadata: &Value) -> Result<Self, String> {
+        let uri_region = match metadata["region"].as_str() {
+            Some("BR") => "https://br1.api.riotgames.com".to_string(),
+            Some("EUNE") => "https://eun1.api.riotgames.com".to_string(),
+            Some("EUW") => "https://euw1.api.riotgames.com".to_string(),
+            Some("JP") => "https://jp1.api.riotgames.com".to_string(),
+            Some("KR") => "https://kr.api.riotgames.com".to_string(),
+            Some("LAN") => "https://la1.api.riotgames.com".to_string(),
+            Some("LAS") => "https://la2.api.riotgames.com".to_string(),
+            Some("NA") => "https://na1.api.riotgames.com".to_string(),
+            Some("OCE") => "https://oc1.api.riotgames.com".to_string(),
+            Some("TR") => "https://tr1.api.riotgames.com".to_string(),
+            Some("RU") => "https://ru.api.riotgames.com".to_string(),
+            Some("PBE") => "https://pbe1.api.riotgames.com".to_string(),
             _ => {
                 return Err(format!("{}{}", "Wrong Region: ", metadata["region"]))
             },

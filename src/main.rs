@@ -1,5 +1,5 @@
-extern crate serde_json;
 mod requestlolapi;
+extern crate serde_json;
 
 use requestlolapi::RequestLolApi;
 use std::fs::File;
@@ -7,8 +7,8 @@ use std::io::BufReader;
 use std::io::prelude::*;
 use self::serde_json::Value;
 
-fn metadata() -> std::io::Result<serde_json::Value> {
-    let file = File::open("/home/ouralgan/lol_web/lolapi/data/lolapi.json")?;
+fn content_to_json(path: &str) -> std::io::Result<serde_json::Value> {
+    let file = File::open(path)?;
     let mut buf_reader = BufReader::new(file);
     let mut contents = String::new();
     buf_reader.read_to_string(&mut contents)?;
@@ -17,8 +17,9 @@ fn metadata() -> std::io::Result<serde_json::Value> {
 }
 
 fn main() {
-    let metadata = metadata().unwrap();
+    let path_metadata = "/home/ouralgan/lol_web/lolapi/data/lolapi.json";
+    let metadata = content_to_json(path_metadata).unwrap();
 
-    let request =  RequestLolApi::new(metadata).unwrap();
+    let request =  RequestLolApi::new(&metadata).unwrap();
     let summoner = request.summoner("Ouralgan").unwrap();
 }
