@@ -1,11 +1,19 @@
-extern crate futures;
-extern crate hyper;
-extern crate hyper_tls;
-extern crate tokio;
+extern crate serde_json;
+extern crate serde;
+extern crate reqwest;
 
-use self::futures::{future, Future};
-use self::hyper_tls::HttpsConnector;
-use self::hyper::Client;
+use self::serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Summoner {
+    id: String,
+    accountId: String,
+    puuid: String,
+    name: String,
+    profileIconId: u64,
+    revisionDate: u64,
+    summonerLevel: u64,
+}
 
 pub struct RequestLolApi {
     api_key: String,
@@ -40,23 +48,12 @@ impl RequestLolApi {
     }
 
     pub fn summoner(&self, summoner_name: &str)
-        -> String
-        {
-            let response = String::new();
-            tokio::run(future::lazy(|| {
-                let https = HttpsConnector::new(1).unwrap();
-                let client = Client::builder()
-                    .build::<_, hyper::Body>(https);
-
-                client
-                    .get("https://hyper.rs".parse().unwrap())
-                    .map(|res| {
-                        if res.status() == 200 {
-                            response = res.body().Payload();
-                        }
-                    })
-                .map_err(|e| println!("request error: {}", e))
-            }));
-            response
-        }
+        -> Result<Summoner, Box<std::error::Error>>
+    {
+        let path = "/lol/summoner/v4/summoners/by-name/";
+        let url = format!("{}{}{}?api_key={}",
+                    self.region, path, summoner_name, self.api_key);
+        let Summoner: Summoner = reqwest::get(&url)?.json()?;
+        Ok(Summoner)
+   }
 }
